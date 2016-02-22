@@ -13,7 +13,7 @@ With easy to use tags you can design complicated command block structures in a t
   1. Setup
   2. Basic file layout/ a new project
   3. Markup tags
-  4. Identifiers
+  4. Special syntax
   5. Bug tracking
   6. Compiling/exporting to a world
   
@@ -118,6 +118,9 @@ To summarize everything we've covered, here is a small example script:
     </impulse>
 </setup>
 
+# For the sake of not repeating too much, I'll skip the 'teardown', 'spawning', 'startup' and 'reset' tags.
+# However, they have the same base-layout as the 'setup' tag.
+
 <blocks>
     <start>
         <relative>1</relative>
@@ -158,11 +161,12 @@ Each tag affects the command blocks until it is closed. A tag can contain multip
 
 These markup tags can both be used in `setup` tags and in `section` tags.
 
-#### 4: Identifiers
-As mentioned before, each `section` has a name. (Even the setup section gets automaticly assigned the name 'setup').
-You can reference section by their name using the `$<name>` syntax. This field will later be replaced by the coordinates of that section in `x y z` form.
+#### 4: Special syntax
 
-The intended use of the syntax is for the setblock command. 
+###### Referencing other sections
+As mentioned before, each `section` has a name. (Even the setup section gets automaticly assigned the name 'setup').
+You can reference section by their name using the `$<name>` syntax. This field will later be replaced by a setblock command with the coordinates of the specified section.
+
 For instance, when you would have the following script:
 ```
 # We don't write the start, direction and setup tags, too much work :)
@@ -170,7 +174,7 @@ For instance, when you would have the following script:
     <section>
         <name>SectionA</name>
         <impulse>
-            /setblock $<SectionB> redstone_block
+            $<SectionB> redstone_block
         </impulse>
     </section>
     <section>
@@ -181,6 +185,8 @@ For instance, when you would have the following script:
     </section?
 </blocks>
 ```
+Note that you still have to specify which block you want to place.
+
 Also note the inserted coordinates are actually the starting coordinates of the section minus 2 in the opposite of the block direction: A repeater will be placed in front of the section. The placed redstone block will thus power the repeater, and not the first command block in the section directly.
 
 #### 5: Bug tracking
